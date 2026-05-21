@@ -1,8 +1,8 @@
-<?php
+<?
 
-    class Problem{
-
-         const DB_PATH = '/var/www/database/problems.txt';
+class Problem
+{
+    const DB_PATH = '/var/www/database/problems.txt';
 
     private array $errors = [];
 
@@ -31,11 +31,39 @@
     {
         return $this->title;
     }
-    
-        public function save(){
+
+    public function isValid(): bool
+    {
+        $this->errors = [];
+
+        if (empty($this->title))
+            $this->errors['title'] = 'não pode ser vazio!';
+
+        return empty($this->errors);
+    }
+
+    public function hasErrors(): bool
+    {
+        return !empty($this->errors);
+    }
+
+    public function errors($index = null): string|null
+    {
+        if (isset($this->errors[$index])) {
+            return $this->errors[$index];
+        }
+
+        return null;
+    }
+
+    public function save(): bool
+    {
+        if ($this->isValid()) {
+		        $this->id = count(file(self::DB_PATH));
             file_put_contents(self::DB_PATH, $this->title . PHP_EOL, FILE_APPEND);
             return true;
         }
 
-
+        return false;
     }
+}
