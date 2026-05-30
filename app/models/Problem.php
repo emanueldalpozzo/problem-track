@@ -9,8 +9,7 @@ class Problem
     public function __construct(
         private string $title = '',
         private int $id = -1
-    ) {
-    }
+    ) {}
 
     public function setID(int $id)
     {
@@ -59,15 +58,23 @@ class Problem
     public function save(): bool
     {
         if ($this->isValid()) {
-		        $this->id = count(file(self::DB_PATH));
-            file_put_contents(self::DB_PATH, $this->title . PHP_EOL, FILE_APPEND);
+            if($this->newRecord()){
+                $this-> id = count(file(self::DB_PATH));
+                file_put_contents(self::DB_PATH, $this->title .  PHP_EOL, FILE_APPEND);
+            }else{
+                $problems = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+                $problems[$this->id] = $this -> title;
+                $data = implode(PHP_EOL, $problems);
+                file_put_contents(self::DB_PATH, $data . PHP_EOL);
+            }
+            
             return true;
         }
 
         return false;
     }
 
-        public static function all(): array
+    public static function all(): array
     {
         $problems = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
 
@@ -76,7 +83,7 @@ class Problem
         }, array_keys($problems), $problems);
     }
 
-        public static function findById(int $id): Problem|null
+    public static function findById(int $id): Problem|null
     {
         $problems = self::all();
 
@@ -85,5 +92,9 @@ class Problem
                 return $problem;
         }
         return null;
+    }
+
+    public function newRecord(): bool {
+        return $this->id === -1;
     }
 }

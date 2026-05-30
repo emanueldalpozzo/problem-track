@@ -1,5 +1,5 @@
 <?php
-
+require '/var/www/app/core/errors/handler.php';
 require '/var/www/app/views/layouts/application.phtml';
 require 'var/www/app/models/Problem.php';
 
