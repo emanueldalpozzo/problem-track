@@ -1,12 +1,5 @@
 <?php
-$id = intval($_GET['id']);
+require '/var/www/app/controllers/ProblemsController.php';
 
-define('DB_PATH', '/var/www/database/problems.txt');
-$problems = file(DB_PATH, FILE_IGNORE_NEW_LINES);
-
-$problem['title'] = $problems[$id];
-
-$title = "Visualização do Problema #{$id}";
-$view = '/var/www/app/views/problems/show.phtml';
-
-require '/var/www/app/views/layouts/application.phtml';
+$controller = new ProblemsController();
+$controller -> show();

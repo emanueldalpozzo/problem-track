@@ -1,11 +1,7 @@
 <?php
-require '/var/www/app/models/Problem.php';
+require '/var/www/app/controllers/ProblemsController.php';
 
-$id = intval($_GET['id']);
-$problem = Problem::findById($id);
+$controller = new ProblemsController;
+$controller -> edit();
 
 
-$title = "Editar Problema #{$problem->getId()}";
-$view = '/var/www/app/views/problems/edit.phtml';
-
-require '/var/www/app/views/layouts/application.phtml';
