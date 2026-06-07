@@ -48,7 +48,7 @@ class ProblemsController
         $problem = new Problem(title: $params['title']);
 
         if ($problem->save()) {
-            $this->redirectTo('pages/problems');
+            $this->redirectTo('/pages/problems');
         } else {
             $title = "Novo Problema";
             $this->render('new', compact('problem', 'title'));
@@ -69,7 +69,7 @@ class ProblemsController
         $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
         if ($method !== 'PUT') {
-            $this->redirectTo('pages/problems');
+            $this->redirectTo('/pages/problems');
         }
 
         $params = $_POST['problem'];
@@ -78,12 +78,10 @@ class ProblemsController
         $problem->setTitle($params['title']);
 
         if ($problem->save()) {
-            $this->redirectTo('pages/problems');
+            $this->redirectTo('/pages/problems');
         } else {
             $title = "Editar Problema #{$problem->getId()}";
             $this->render('edit', compact('problem', 'title'));
-
-            require '/var/www/app/views/layouts/application.phtml';
         }
     }
 
@@ -92,13 +90,13 @@ class ProblemsController
         $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
         if ($method !== 'DELETE') {
-            $this->redirectTo('pages/problems');
+            $this->redirectTo('/pages/problems');
         }
 
         $problem = Problem::findById($_POST['problem']['id']);
 
         $problem->destroy();
-        $this->redirectTo('pages/problems');
+        $this->redirectTo('/pages/problems');
     }
 
     private function render($view, $data = [])
