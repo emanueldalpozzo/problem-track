@@ -1,13 +1,7 @@
 <?php
-require('/var/www/app/models/Problem.php');
-$method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+require '/var/www/app/controllers/ProblemsController.php';
 
-if ($method !== 'DELETE') {
-    header('Location: /pages/problems');
-    exit;
-}
+$controller = new ProblemsController;
+$controller -> destroy();
 
-$problem = Problem::findById($_POST['problem']['id']);
 
-$problem -> destroy();
-header('Location: /pages/problems');
