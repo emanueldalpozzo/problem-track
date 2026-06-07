@@ -1,5 +1,6 @@
 <?php
 require '/var/www/app/models/Problem.php';
+
 class ProblemsController
 {
 
@@ -11,7 +12,12 @@ class ProblemsController
         $problems = Problem::all();
 
         $title = 'Problemas Registrados';
-        $this->render('index', compact('problems', 'title'));
+
+        if ($this->isJsonRequest()) {
+            $this->renderJson('index', compact('problems', 'title'));
+        } else {
+            $this->render('index', compact('problems', 'title'));
+        }
     }
 
     public function show()
@@ -86,13 +92,13 @@ class ProblemsController
         $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
         if ($method !== 'DELETE') {
-            $this -> redirectTo('pages/problems');
+            $this->redirectTo('pages/problems');
         }
 
         $problem = Problem::findById($_POST['problem']['id']);
 
         $problem->destroy();
-        $this -> redirectTo('pages/problems');
+        $this->redirectTo('pages/problems');
     }
 
     private function render($view, $data = [])
@@ -104,9 +110,26 @@ class ProblemsController
         require '/var/www/app/views/layouts/' . $this->layout . '.phtml';
     }
 
+    private function renderJson($view, $data = [])
+    {
+        extract($data);
+        $view = '/var/www/app/views/problems/' . $view . '.json.php';
+        $json = [];
+
+        header('Content-Typer: application/json; charset = UTF-8');
+        require $view;
+        echo json_encode($json);
+        return;
+    }
+
     private function redirectTo($location)
     {
         header('Location: ' . $location);
         exit;
+    }
+
+    private function isJsonRequest()
+    {
+        return $_SERVER['HTTP_ACCEPT'] && $_SERVER['HTTP_ACCEPT'] === 'application/json';
     }
 }
