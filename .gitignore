@@ -7,3 +7,6 @@
 #Ignore logs and temporary files
 *.log
 *.tmp
+
+#Ignore vendor folder
+/vendor/
