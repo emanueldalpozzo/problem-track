@@ -1,5 +1,7 @@
 <?php
-require '/var/www/app/models/Problem.php';
+namespace App\Controllers;
+
+use App\Models\Problem;
 
 class ProblemsController
 {
