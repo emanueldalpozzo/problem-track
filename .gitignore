@@ -10,3 +10,6 @@
 
 #Ignore vendor folder
 /vendor/
+
+#Ignore cache folder
+./cache/*
