@@ -9,6 +9,8 @@
 
 ### To run
 
+$ cp .env.example .env
+
 ```
 $ git clone git@github.com:SI-DABE/problem-track.git
 $ cd problem-track
