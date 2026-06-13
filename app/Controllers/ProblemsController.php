@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\Problem;
 
 class ProblemsController
 {
-
     private string $layout = 'application';
 
     public function index()
@@ -44,7 +44,9 @@ class ProblemsController
     public function create()
     {
         $method = $_SERVER['REQUEST_METHOD'];
-        if ($method !== 'POST') $this->redirectTo('/pages/problems');
+        if ($method !== 'POST') {
+            $this->redirectTo('/pages/problems');
+        }
 
         $params = $_POST['problem'];
         $problem = new Problem(title: $params['title']);

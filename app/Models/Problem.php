@@ -4,13 +4,13 @@ namespace App\Models;
 
 class Problem
 {
-
     private array $errors = [];
 
     public function __construct(
         private string $title = '',
         private int $id = -1
-    ) {}
+    ) {
+    }
 
     public function setID(int $id)
     {
@@ -36,8 +36,9 @@ class Problem
     {
         $this->errors = [];
 
-        if (empty($this->title))
+        if (empty($this->title)) {
             $this->errors['title'] = 'não pode ser vazio!';
+        }
 
         return empty($this->errors);
     }
@@ -86,7 +87,9 @@ class Problem
 
     public static function all(): array
     {
-        if(!file_exists(self::DB_PATH())) return [];
+        if (!file_exists(self::DB_PATH())) {
+            return [];
+        }
         $problems = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
 
         return array_map(function ($line, $title) {
@@ -99,8 +102,9 @@ class Problem
         $problems = self::all();
 
         foreach ($problems as $problem) {
-            if ($problem->getId() === $id)
+            if ($problem->getId() === $id) {
                 return $problem;
+            }
         }
         return null;
     }
@@ -110,7 +114,8 @@ class Problem
         return $this->id === -1;
     }
 
-    private static function DB_PATH() {
+    private static function DB_PATH()
+    {
         return DATABASE_PATH . $_ENV['DB_NAME'];
     }
 }

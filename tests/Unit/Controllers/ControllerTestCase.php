@@ -6,8 +6,8 @@ use Tests\TestCase;
 
 abstract class ControllerTestCase extends TestCase
 {
-
-    public function get(string $action, string $controller): string {
+    public function get(string $action, string $controller): string
+    {
 
         $controller = new $controller();
         ob_start();
@@ -16,8 +16,5 @@ abstract class ControllerTestCase extends TestCase
         ob_end_clean();
 
         return $response;
-
     }
-
-    
 }
