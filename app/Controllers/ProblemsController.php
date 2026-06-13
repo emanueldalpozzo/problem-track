@@ -130,6 +130,6 @@ class ProblemsController
 
     private function isJsonRequest()
     {
-        return $_SERVER['HTTP_ACCEPT'] && $_SERVER['HTTP_ACCEPT'] === 'application/json';
+        return ($_SERVER['HTTP_ACCEPT'] ?? '') === 'application/json';
     }
 }

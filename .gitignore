@@ -13,3 +13,7 @@
 
 #Ignore cache folder
 ./cache/*
+
+#Ignore env
+.env
+

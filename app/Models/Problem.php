@@ -4,7 +4,6 @@ namespace App\Models;
 
 class Problem
 {
-    const DB_PATH = '/var/www/database/problems.txt';
 
     private array $errors = [];
 
@@ -61,13 +60,13 @@ class Problem
     {
         if ($this->isValid()) {
             if ($this->newRecord()) {
-                $this->id = count(file(self::DB_PATH));
-                file_put_contents(self::DB_PATH, $this->title .  PHP_EOL, FILE_APPEND);
+                $this->id = file_exists(self::DB_PATH()) ? count(file(self::DB_PATH())) : 0;
+                file_put_contents(self::DB_PATH(), $this->title .  PHP_EOL, FILE_APPEND);
             } else {
-                $problems = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+                $problems = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
                 $problems[$this->id] = $this->title;
                 $data = implode(PHP_EOL, $problems);
-                file_put_contents(self::DB_PATH, $data . PHP_EOL);
+                file_put_contents(self::DB_PATH(), $data . PHP_EOL);
             }
 
             return true;
@@ -78,16 +77,17 @@ class Problem
 
     public function destroy()
     {
-        $problems = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        $problems = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
         unset($problems[$this->id]);
 
         $data = implode(PHP_EOL, $problems);
-        file_put_contents(self::DB_PATH, $data . PHP_EOL);
+        file_put_contents(self::DB_PATH(), $data . PHP_EOL);
     }
 
     public static function all(): array
     {
-        $problems = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        if(!file_exists(self::DB_PATH())) return [];
+        $problems = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
 
         return array_map(function ($line, $title) {
             return new Problem(id: $line, title: $title);
@@ -108,5 +108,9 @@ class Problem
     public function newRecord(): bool
     {
         return $this->id === -1;
+    }
+
+    private static function DB_PATH() {
+        return DATABASE_PATH . $_ENV['DB_NAME'];
     }
 }
