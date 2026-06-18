@@ -2,10 +2,12 @@
 
 namespace Tests;
 
+use Core\Constants\Constants;
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
 
-require dirname(__DIR__) . '/core/constants/general.php';
-require ROOT_PATH . '/core/debug/functions.php';
+
+require dirname(__DIR__) . '/core/debug/functions.php';
+
 
 class TestCase extends FrameworkTestCase
 {
@@ -23,7 +25,7 @@ class TestCase extends FrameworkTestCase
 
     private function clearDatabase()
     {
-        $file = DATABASE_PATH . $_ENV['DB_NAME'];
+        $file = Constants::databasePath() . $_ENV['DB_NAME'];
         if (file_exists($file)) {
             unlink($file);
         }
