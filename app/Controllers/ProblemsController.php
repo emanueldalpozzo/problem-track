@@ -8,7 +8,7 @@ class ProblemsController
 {
     private string $layout = 'application';
 
-    public function index()
+    public function index(): void
     {
 
         $problems = Problem::all();
@@ -22,7 +22,7 @@ class ProblemsController
         }
     }
 
-    public function show()
+    public function show(): void
     {
 
         $id = intval($_GET['id']);
@@ -34,14 +34,14 @@ class ProblemsController
         $this->render('show', compact('problem', 'title'));
     }
 
-    public function new()
+    public function new(): void
     {
         $problem = new Problem();
         $title = 'Novo Problema';
         $this->render('new', compact('problem', 'title'));
     }
 
-    public function create()
+    public function create(): void
     {
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method !== 'POST') {
@@ -59,7 +59,7 @@ class ProblemsController
         }
     }
 
-    public function edit()
+    public function edit(): void
     {
         $id = intval($_GET['id']);
         $problem = Problem::findById($id);
@@ -68,7 +68,7 @@ class ProblemsController
         $this->render('edit', compact('problem', 'title'));
     }
 
-    public function update()
+    public function update(): void
     {
         $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
@@ -89,7 +89,7 @@ class ProblemsController
         }
     }
 
-    public function destroy()
+    public function destroy(): void
     {
         $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
@@ -103,7 +103,10 @@ class ProblemsController
         $this->redirectTo('/pages/problems');
     }
 
-    private function render($view, $data = [])
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function render(string $view, array $data = []): void
     {
 
         extract($data);
@@ -112,7 +115,10 @@ class ProblemsController
         require '/var/www/app/views/layouts/' . $this->layout . '.phtml';
     }
 
-    private function renderJson($view, $data = [])
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function renderJson(string $view, array $data = []): void
     {
         extract($data);
         $view = '/var/www/app/views/problems/' . $view . '.json.php';
@@ -124,13 +130,13 @@ class ProblemsController
         return;
     }
 
-    private function redirectTo($location)
+    private function redirectTo(string $location): void
     {
         header('Location: ' . $location);
         exit;
     }
 
-    private function isJsonRequest()
+    private function isJsonRequest(): bool
     {
         return ($_SERVER['HTTP_ACCEPT'] ?? '') === 'application/json';
     }
