@@ -8,8 +8,3 @@ use Core\Errors\ErrorsHandler;
 
 ErrorsHandler::init();
 EnvLoader::init();
-
-
-
-
-

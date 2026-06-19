@@ -2,7 +2,6 @@
 
 namespace Core\Debug;
 
-
 class Debugger
 {
     static function dd(): void
