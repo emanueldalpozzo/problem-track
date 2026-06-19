@@ -14,8 +14,7 @@ class Problem
     public function __construct(
         private string $title = '',
         private int $id = -1
-    ) {
-    }
+    ) {}
 
     public function setID(int $id): void
     {
@@ -124,6 +123,7 @@ class Problem
 
     private static function dbPath(): string
     {
-        return Constants::rootPath()->join( $_ENV['DB_NAME']);
+    
+        return Constants::rootPath()->join($_ENV['DB_NAME']);
     }
 }
