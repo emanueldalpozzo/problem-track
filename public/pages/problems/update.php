@@ -5,5 +5,3 @@ use App\Controllers\ProblemsController;
 
 $controller = new ProblemsController();
 $controller -> update();
-
-

@@ -6,7 +6,6 @@ use Closure;
 
 class ErrorsHandler
 {
-
     public static function init(): void
     {
         new self();
