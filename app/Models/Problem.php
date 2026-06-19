@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use Core\Constants\Constants;
+
 class Problem
 {
-
+    /**
+     * @var array <string, string>
+     */
     private array $errors = [];
 
     public function __construct(
@@ -12,7 +16,7 @@ class Problem
         private int $id = -1
     ) {}
 
-    public function setID(int $id)
+    public function setID(int $id): void
     {
         $this->id = $id;
     }
@@ -22,7 +26,7 @@ class Problem
         return $this->id;
     }
 
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -36,8 +40,9 @@ class Problem
     {
         $this->errors = [];
 
-        if (empty($this->title))
+        if (empty($this->title)) {
             $this->errors['title'] = 'não pode ser vazio!';
+        }
 
         return empty($this->errors);
     }
@@ -47,7 +52,7 @@ class Problem
         return !empty($this->errors);
     }
 
-    public function errors($index = null): string|null
+    public function errors(string $index): string|null
     {
         if (isset($this->errors[$index])) {
             return $this->errors[$index];
@@ -60,13 +65,13 @@ class Problem
     {
         if ($this->isValid()) {
             if ($this->newRecord()) {
-                $this->id = file_exists(self::DB_PATH()) ? count(file(self::DB_PATH())) : 0;
-                file_put_contents(self::DB_PATH(), $this->title .  PHP_EOL, FILE_APPEND);
+                $this->id = file_exists(self::dbPath()) ? count(file(self::dbPath())) : 0;
+                file_put_contents(self::dbPath(), $this->title .  PHP_EOL, FILE_APPEND);
             } else {
-                $problems = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
+                $problems = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
                 $problems[$this->id] = $this->title;
                 $data = implode(PHP_EOL, $problems);
-                file_put_contents(self::DB_PATH(), $data . PHP_EOL);
+                file_put_contents(self::dbPath(), $data . PHP_EOL);
             }
 
             return true;
@@ -75,19 +80,24 @@ class Problem
         return false;
     }
 
-    public function destroy()
+    public function destroy(): void
     {
-        $problems = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
+        $problems = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
         unset($problems[$this->id]);
 
         $data = implode(PHP_EOL, $problems);
-        file_put_contents(self::DB_PATH(), $data . PHP_EOL);
+        file_put_contents(self::dbPath(), $data . PHP_EOL);
     }
 
+    /**
+     * @return array <int, Problem>
+     */
     public static function all(): array
     {
-        if(!file_exists(self::DB_PATH())) return [];
-        $problems = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
+        if (!file_exists(self::dbPath())) {
+            return [];
+        }
+        $problems = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
 
         return array_map(function ($line, $title) {
             return new Problem(id: $line, title: $title);
@@ -99,8 +109,9 @@ class Problem
         $problems = self::all();
 
         foreach ($problems as $problem) {
-            if ($problem->getId() === $id)
+            if ($problem->getId() === $id) {
                 return $problem;
+            }
         }
         return null;
     }
@@ -110,7 +121,9 @@ class Problem
         return $this->id === -1;
     }
 
-    private static function DB_PATH() {
-        return DATABASE_PATH . $_ENV['DB_NAME'];
+    private static function dbPath(): string
+    {
+    
+        return Constants::rootPath()->join($_ENV['DB_NAME']);
     }
 }

@@ -1,7 +1,9 @@
 <?php
-require '/var/www/app/controllers/ProblemsController.php';
 
-$controller = new ProblemsController;
+require '/var/www/config/bootstrap.php';
+use App\Controllers\ProblemsController;
+
+$controller = new ProblemsController();
 $controller -> update();
 
 

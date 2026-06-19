@@ -7,14 +7,14 @@ use Tests\TestCase;
 
 class ProblemTest extends TestCase
 {
-    public function test_can_set_tytle()
+    public function test_can_set_tytle(): void
     {
         $problem = new Problem(title: 'Problem 1');
 
         $this->assertEquals('Problem 1', $problem->getTitle());
     }
 
-    public function test_has_to_create_new_problem()
+    public function test_has_to_create_new_problem(): void
     {
         $problem = new Problem(title: 'Problem 1');
         $inicialCount = count(Problem::all());

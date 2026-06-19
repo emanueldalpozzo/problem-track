@@ -2,15 +2,14 @@
 
 namespace Tests;
 
+use Core\Constants\Constants;
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
-require dirname(__DIR__) . '/core/constants/general.php';
-require ROOT_PATH . '/core/debug/functions.php';
 
 class TestCase extends FrameworkTestCase
 {
-
     public function setUp(): void
-    { //executado antes de cada teste
+    {
+ //executado antes de cada teste
 
         $this -> clearDatabase();
     }
@@ -20,8 +19,11 @@ class TestCase extends FrameworkTestCase
         $this -> clearDatabase();
     }
 
-    private function clearDatabase(){
-        $file = DATABASE_PATH . $_ENV['DB_NAME'];
-        if(file_exists($file)) unlink($file);
+    private function clearDatabase(): void
+    {
+        $file = Constants::databasePath() . $_ENV['DB_NAME'];
+        if (file_exists($file)) {
+            unlink($file);
+        }
     }
 }
