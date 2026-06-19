@@ -2,10 +2,12 @@
 
 namespace Core\Errors;
 
+use Closure;
+
 class ErrorsHandler
 {
 
-    public static function init()
+    public static function init(): void
     {
         new self();
     }
@@ -17,7 +19,7 @@ class ErrorsHandler
         set_error_handler($this->errorHandler());
     }
 
-    private static function exceptionHandler()
+    private static function exceptionHandler(): Closure
     {
         return function ($e) {
             ob_end_clean(); // Discard the buffered output
@@ -39,7 +41,7 @@ class ErrorsHandler
         };
     }
 
-    private static function errorHandler()
+    private static function errorHandler(): Closure
     {
         return function ($errorNumber, $errorStr, $file, $line) {
 

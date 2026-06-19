@@ -11,7 +11,7 @@ class StringPath{
         
     }
 
-    public function join(string $path){
+    public function join(string $path): StringPath{
         $this->path .= '/' . ltrim($path, '/');
         return $this;
     }
