@@ -1,0 +1,40 @@
+name: Continuous Integration
+
+on:
+  - push
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Composer Install
+        run: ./run composer install 
+
+      - name: PHP Unit
+        run: ./run test
+
+  # code-quality:
+  #   name: Code Quality Checker
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ github.event.pull_request.head.sha }}
+
+  #     - name: Composer Install
+  #       run: composer install --no-interaction
+
+  #     - name: PHPCS
+  #       run: ./vendor/bin/phpcs
+
+  #     - name: PSR-4 Checker
+  #       run: composer dump-autoload --optimize
