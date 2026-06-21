@@ -16,7 +16,7 @@ function down {
 }
 
 function composer {
-    docker run --rm --interactive --tty             \
+    docker run --rm --interactive                   \
         -e COMPOSER_CACHE_DIR="/app/.cache/composer" \
         -u "$(id -u):$(id -g)" -v "$(pwd):/app"       \
         -w /app composer:2.7.2 composer "${@}"
@@ -34,7 +34,7 @@ function nginx:reload {
     docker compose exec web nginx -s reload
 }
 
-function tests {
+function test {
     TEST_PATH="${@:-tests}"
     docker compose run --rm php ./vendor/bin/phpunit --color ${TEST_PATH}
 }
@@ -52,6 +52,10 @@ function phpcbf {
 function phpstan {
     TEST_PATH="${@:-}"
     docker compose run --rm php ./vendor/bin/phpstan ${TEST_PATH}
+}
+
+function git::clean:branchs {
+    git branch | egrep -v '\*\|master\|main\|devlop\|production' | xargs -n 1 git branch -D
 }
 
 
