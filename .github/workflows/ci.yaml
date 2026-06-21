@@ -1,8 +1,8 @@
 name: Continuous Integration
 
 on:
-  pull_request
-    types: [opened, synchonize, reopened]
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   tests:
@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Composer Install
         run: ./run composer install
@@ -28,8 +26,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Composer Install
         run: ./run composer install
