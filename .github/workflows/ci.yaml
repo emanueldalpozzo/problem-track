@@ -39,5 +39,5 @@ jobs:
       - name: PHPStan
         run: ./run phpstan
 
-   #    - name: PSR-4 Checker
-  #       run: composer dump-autoload --optimize
+      - name: PSR-4 Checker
+        run: ./run composer dump-autoload --strict-psr
