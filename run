@@ -54,6 +54,10 @@ function phpstan {
     docker compose run --rm php ./vendor/bin/phpstan ${TEST_PATH}
 }
 
+function git::clean:branchs {
+    git branch | egrep -v '\*\|master\|main\|devlop\|production' | xargs -n 1 git branch -D
+}
+
 
 TIMEFORMAT=$'\nTask completed in  %3lR'
 time ${@}
