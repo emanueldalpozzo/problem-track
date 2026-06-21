@@ -20,21 +20,24 @@ jobs:
       - name: PHP Unit
         run: ./run test
 
-  # code-quality:
-  #   name: Code Quality Checker
-  #   runs-on: ubuntu-latest
+   code-quality:
+     name: Code Quality Checker
+     runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ github.event.pull_request.head.sha }}
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v4
+         with:
+           ref: ${{ github.event.pull_request.head.sha }}
 
-  #     - name: Composer Install
-  #       run: composer install --no-interaction
+       - name: Composer Install
+         run: ./run composer install
 
-  #     - name: PHPCS
-  #       run: ./vendor/bin/phpcs
+       - name: PHPCS
+         run: ./run phpsc
+        
+       - name: PHPStan
+         run: ./run phpstan
 
-  #     - name: PSR-4 Checker
-  #       run: composer dump-autoload --optimize
+       - name: PSR-4 Checker
+         run: composer dump-autoload --optimize
