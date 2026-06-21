@@ -4,8 +4,8 @@ on:
   - push
 
 jobs:
-  testes:
-    name: Testes
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -15,10 +15,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Composer Install
-        run: composer install --no-interaction
+        run: ./run composer install
 
       - name: PHP Unit
-        run: ./vendor/bin/phpunit
+        run: ./run test
 
   code-quality:
     name: Code Quality Checker
@@ -31,10 +31,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Composer Install
-        run: composer install --no-interaction
+        run: ./run composer install
 
       - name: PHPCS
-        run: ./vendor/bin/phpcs
+        run: ./run phpcs
 
-      - name: PSR-4 Checker
-        run: composer dump-autoload --optimize
+      - name: PHPStan
+        run: ./run phpstan
+
+   #    - name: PSR-4 Checker
+  #       run: composer dump-autoload --optimize
