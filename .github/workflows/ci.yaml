@@ -40,4 +40,4 @@ jobs:
         run: ./run phpstan
 
       - name: PSR-4 Checker
-        run: ./run composer dump-autoload --strict-psr
+        run: ./run composer dump-autoload --optimize --strict-psr
