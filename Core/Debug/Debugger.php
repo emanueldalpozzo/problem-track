@@ -9,13 +9,13 @@ class Debugger
 
         $str = "";
         foreach (func_get_args() as $index => $value) {
-            if ($index != 0) echo $str .= "<hr>";
-
+            if ($index != 0) {
+                echo $str .= "<hr>";
+            }
             $str .= highlight_string("<?php " . self::dump($value) . "?>", true);
             var_dump($value);
         }
-        echo str_replace(['&lt;?php', '?&gt;'], '',  $str);
-
+        echo str_replace(['&lt;?php', '?&gt;'], '', $str);
         exit;
     }
 
