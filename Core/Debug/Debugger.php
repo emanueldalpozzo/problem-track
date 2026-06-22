@@ -2,6 +2,8 @@
 
 namespace Core\Debug;
 
+use Closure;
+
 class Debugger
 {
     public static function dd(): void
@@ -19,7 +21,7 @@ class Debugger
         exit;
     }
 
-    private static function dump($value)
+    private static function dump(mixed $value): string
     {
         ob_start();
         var_dump($value);
