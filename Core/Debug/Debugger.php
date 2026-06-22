@@ -2,12 +2,29 @@
 
 namespace Core\Debug;
 
+use Closure;
+
 class Debugger
 {
     public static function dd(): void
     {
-        var_dump(func_get_args());
 
+        $str = "";
+        foreach (func_get_args() as $index => $value) {
+            if ($index != 0) {
+                echo $str .= "<hr>";
+            }
+            $str .= highlight_string("<?php " . self::dump($value) . "?>", true);
+            var_dump($value);
+        }
+        echo str_replace(['&lt;?php', '?&gt;'], '', $str);
         exit;
+    }
+
+    private static function dump(mixed $value): string
+    {
+        ob_start();
+        var_dump($value);
+        return ob_get_clean();
     }
 }

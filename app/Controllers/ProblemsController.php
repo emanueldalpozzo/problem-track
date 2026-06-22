@@ -12,7 +12,6 @@ class ProblemsController
     {
 
         $problems = Problem::all();
-
         $title = 'Problemas Registrados';
 
         if ($this->isJsonRequest()) {
